@@ -1,7 +1,7 @@
 {
   "name": "palmettoflow-auth0",
   "version": "1.0.0",
-  "description": "",
+  "description": "[![Build Status](https://travis-ci.org/twilson63/palmettoflow-auth0-svc.svg?branch=master)](https://travis-ci.org/twilson63/palmettoflow-auth0-svc)",
   "main": "index.js",
   "scripts": {
     "test": "tap test"
@@ -17,5 +17,16 @@
   "devDependencies": {
     "palmettoflow-nodejs": "^1.0.1",
     "tap": "^2.1.1"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/twilson63/palmettoflow-auth0-svc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/twilson63/palmettoflow-auth0-svc/issues"
+  },
+  "homepage": "https://github.com/twilson63/palmettoflow-auth0-svc#readme"
 }
