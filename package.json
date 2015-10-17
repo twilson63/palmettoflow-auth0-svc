@@ -1,6 +1,6 @@
 {
   "name": "palmettoflow-auth0",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "[![Build Status](https://travis-ci.org/twilson63/palmettoflow-auth0-svc.svg?branch=master)](https://travis-ci.org/twilson63/palmettoflow-auth0-svc)",
   "main": "index.js",
   "scripts": {
