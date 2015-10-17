@@ -1,5 +1,7 @@
 # Palmetto Flow Service for Auth0
 
+[![Build Status](https://travis-ci.org/twilson63/palmettoflow-auth0-svc.svg?branch=master)](https://travis-ci.org/twilson63/palmettoflow-auth0-svc)
+
 This service manages Auth0 Api through the Palmetto Flow.
 
 Configuration
