@@ -1,0 +1,21 @@
+{
+  "name": "palmettoflow-auth0",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "auth0": "^0.8.2",
+    "palmettoflow-event": "^1.1.2",
+    "rewire": "^2.3.4"
+  },
+  "devDependencies": {
+    "palmettoflow-nodejs": "^1.0.1",
+    "tap": "^2.1.1"
+  }
+}
