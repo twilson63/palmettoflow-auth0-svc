@@ -45,10 +45,10 @@ ee.emit('send', ne)
 
 * Update User
 
+For more info on updatable user properties, visit the [Auth0 docs](https://auth0.com/docs/api/v2#!/Users/patch_users_by_id)
+
 ``` js
 var newEvent = require('palmettoflow-event').newEvent
-
-// For more info on updatable user properties, visit the [Auth0 docs](https://auth0.com/docs/api/v2#!/Users/patch_users_by_id)
 
 var reqData = {
   userId: '123456',
