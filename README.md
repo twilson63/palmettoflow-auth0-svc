@@ -7,8 +7,15 @@ This service manages Auth0 Api through the Palmetto Flow.
 Configuration
 
 ``` js
+var palmetto = require('@twilson63/palmetto-couchdb')
+
+var ee = palmetto({
+  endpoint: palmettoConfig.endpoint,
+  app: palmettoConfig.app
+})
+
 var svc = require('palmettoflow-auth0')({
-  domain: ''.
+  domain: '',
   clientID: '',
   clientSecret: ''
 })
@@ -18,16 +25,12 @@ svc(ee)
 
 Api methods currently implemented:
 
-* Update Email Example
+* Get User
 
 ``` js
 var newEvent = require('palmettoflow-event').newEvent
 
-var ne = newEvent('auth0/users/email', 'update', {
-  client_id: '....',
-  email: 'foo@foo.com',
-  verify: true
-})
+var ne = newEvent('auth0/user', 'get', { userId: '123456' })
 
 ee.on(ne.from, function (event) {
   if (event.verb === 'update-error') {
@@ -40,16 +43,21 @@ ee.emit('send', ne)
 ```
 
 
-* Update Password Example
+* Update User
 
 ``` js
 var newEvent = require('palmettoflow-event').newEvent
 
-var ne = newEvent('auth0/users/password', 'update', {
-  client_id: '....',
-  password: 'newPassword',
-  verify: true
-})
+// For more info on updatable user properties, visit the [Auth0 docs](https://auth0.com/docs/api/v2#!/Users/patch_users_by_id)
+
+var reqData = {
+  userId: '123456',
+  userData: {
+    email: 'foo.bar@baz.net'
+  }
+}
+
+var ne = newEvent('auth0/user', 'update', reqData)
 
 ee.on(ne.from, function (event) {
   if (event.verb === 'update-error') {

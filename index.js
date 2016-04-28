@@ -1,33 +1,21 @@
-var response = require('palmettoflow-event').response
-var responseError = require('palmettoflow-event').responseError
-
 var Auth0 = require('auth0')
+const { response }  = require('palmettoflow-event')
+const { responseError } = require('palmettoflow-event')
 
-module.exports = function (config) {
+module.exports = config => {
   var api = new Auth0(config)
-  return function (ee) {
-    ee.on('/auth0/users/email/update', function (event) {
-      api.updateUserEmail(
-        event.object.user_id,
-        event.object.email,
-        event.object.verify,
-        function (err, result) {
-          if (err) { return ee.emit('send', responseError(event, err)) }
-          ee.emit('send', response(event, {message: result}))
-        }
-      )
+  return ee => {
+
+    ee.on('/auth0/user/get', event => {
+      api.getUser(event.object.userId)
+        .then(res => ee.emit('send', response(event, {message: res})))
+        .catch(err => ee.emit('send', responseError(event, err)))
     })
 
-    ee.on('/auth0/users/password/update', function (event) {
-      api.updateUserPassword(
-        event.object.user_id,
-        event.object.password,
-        event.object.verify,
-        function (err, result) {
-          if (err) { return ee.emit('send', responseError(event, err)) }
-          ee.emit('send', response(event, { message: result}))
-        }
-      )
+    ee.on('/auth0/user/update', event => {
+      api.updateUser(event.object.userId, event.object.userData)
+        .then(res => ee.emit('send', response(event, {message: res})))
+        .catch(err => ee.emit('send', responseError(event, err)))
     })
   }
 }
