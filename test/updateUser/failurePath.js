@@ -12,7 +12,7 @@ test('Should return error from auth0/user/update', t => {
     }
   })
 
-  var ne = newEvent('auth0/user', 'update', {userId: '123456'})
+  var ne = newEvent('auth0/user', 'update', {userId: '123456', userData: {email: 'foo@bar.com'}})
 
   var svc = svcConfig({
     domain: 'example.auth0.com',

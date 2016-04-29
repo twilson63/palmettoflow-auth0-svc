@@ -22,10 +22,10 @@ test('Should return user data from auth0/user/update call', t => {
 
   svc(ee)
 
-  var ne = newEvent('auth0/user', 'update', {userId: '123456'})
+  var ne = newEvent('auth0/user', 'update', {userId: '123456', userData: {email: 'foo@bar.com'}})
 
   ee.on(ne.from, event => {
-    t.deepEqual(updateData, event.object.message, 'should respond without error from palmetto call')
+    t.deepEqual(updateData, event.object, 'should respond without error from palmetto call')
   })
 
   ee.emit('send', ne)
