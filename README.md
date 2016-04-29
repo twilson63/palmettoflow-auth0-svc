@@ -4,6 +4,8 @@
 
 This service manages Auth0 Api through the Palmetto Flow.
 
+> Node v6 is required for this module
+
 Configuration
 
 ``` js
@@ -68,4 +70,3 @@ ee.on(ne.from, function (event) {
 
 ee.emit('send', ne)
 ```
-
