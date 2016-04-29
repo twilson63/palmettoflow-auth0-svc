@@ -1,47 +1,21 @@
 var Auth0 = require('auth0')
-const { response, responseError }  = require('palmettoflow-event')
-const { has, curry, compose, not, isNil, pathSatisfies } = require('ramda')
+
+const { isNil, pathSatisfies, curry } = require('ramda')
+const on = require('./lib/handle-events')
+
+const uidPath = ['object', 'userId']
+const dataPath = ['object', 'userData']
+
 
 // pure functions
-const userIdNotFound = { message: 'userId is required in event object'}
-const userDataNotFound = { message: 'userData is required in event object'}
+const notValidId = pathSatisfies(isNil, uidPath)
+const notValidData = pathSatisfies(isNil, dataPath)
 
-const sendResponse = curry((ee, event, res) =>
-  ee.emit('send', response(event, res)))
-
-const sendError = curry((ee, event, err) =>
-  ee.emit('send', responseError(event, err)))
-
-const notValidId = pathSatisfies(isNil, ['object', 'userId'])
-const notValidData = pathSatisfies(isNil, ['object', 'userData'])
-
-
-module.exports = config => {
+module.exports = curry((config, ee) => {
   const { getUser, updateUser } = new Auth0(config)
-  return ee => {
 
-    ee.on('/auth0/user/get', event => {
-      if (notValidId(event)) {
-        return sendError(ee, event, userIdNotFound)
-      }
+  on(ee, '/auth0/user/get', getUser, [uidPath], notValidId)
 
-      // get auth0 user information
-      getUser(event.object.userId)
-        .then(sendResponse(ee, event))
-        .catch(sendError(ee, event))
-    })
+  on(ee, '/auth0/user/update', updateUser, [uidPath, dataPath], notValidData)
 
-    ee.on('/auth0/user/update', event => {
-      if (notValidId(event)) {
-        return sendError(ee, event, userIdNotFound)
-      }
-      if (notValidData(event)) {
-        return sendError(ee, event, userDataNotFound)
-      }
-      // update auth0 user information
-      updateUser(event.object.userId, event.object.userData)
-        .then(sendResponse(ee, event))
-        .catch(sendError(ee, event))
-    })
-  }
-}
+})
