@@ -1,11 +1,13 @@
 const { fromEvent, fromPromise } = require('most')
 const { curry, path } = require('ramda')
 const { response, responseError }  = require('palmettoflow-event')
+const { getUser, updateUser } = require('./users')
 
 const svc = curry((config, ee) => {
-  const { getUser, updateUser } = new Auth0(config)
+  const get = getUser(config.token, config.domain)
+  const update = updateUser(config.token, config.domain)
   const send = ev => ee.emit('send', ev)
-
+  
   fromEvent('/auth0/user/get', ee)
     .flatMap(handleGetUser)
     .observe(send)
@@ -18,10 +20,9 @@ const svc = curry((config, ee) => {
 
   function handleGetUser (event) {
     const userId = path(['object','userId'], event) || null
-
-    return fromPromise(getUser(userId)
-      .then(data => response(data, event))
-      .catch(err => responseError(err, event))
+    return fromPromise(get(userId)
+      .then(data => response(event, data))
+      .catch(err => responseError(event, data))
     )
   }
 
@@ -29,9 +30,9 @@ const svc = curry((config, ee) => {
     const userId = path(['object','userId'], event) || null
     const userData = path(['object','userData'], event) || null
 
-    return fromPromise(updateUser(userId, userData)
-      .then(data => response(data, event))
-      .catch(err => responseError(err, event))
+    return fromPromise(update(userId, userData)
+      .then(data => response(event, data))
+      .catch(err => responseError(event, data))
     )
   }
 })
