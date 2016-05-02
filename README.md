@@ -17,9 +17,8 @@ var ee = palmetto({
 })
 
 var svc = require('palmettoflow-auth0')({
-  domain: '',
-  clientID: '',
-  clientSecret: ''
+  domain: '_DOMAIN_',
+  token: '_TOKEN_'
 })
 
 svc(ee)

@@ -1,33 +1,35 @@
-const test = require('ava')
+const test = require('tap').test
 const rewire = require('rewire')
 const { newEvent } = require('palmettoflow-event')
 var ee = require('palmettoflow-nodejs')()
 var svcConfig = rewire('../../')
+const { curry } = require('ramda')
 
-test('Should return user data from auth0/user/get call', t => {
+test('getUser-successPath', t => {
+  t.test('Should return user data from auth0/user/get call', tt => {
+    var response = { email: 'foo@bar.net' }
 
-  var response = { email: 'foo@bar.net' }
+    var revert = svcConfig.__set__('getUser', curry((data, data2, data3) => new Promise((resolve, reject) => resolve(response))))
 
-  var revert = svcConfig.__set__('Auth0', config => {
-    return {
-      getUser: input => new Promise((resolve, reject) => {resolve(response)})
-    }
+    var ne = newEvent('auth0/user', 'get', {userId: 'auth0|12345'})
+
+    var svc = svcConfig({
+      domain: 'example.auth0.com',
+      token: 'TOKEN'
+    })
+
+    svc(ee)
+
+    ee.on(ne.from, event => {
+      t.deepEqual(response, event.object, 'should respond without error from palmetto call')
+      revert()
+      tt.end()
+      t.end()
+    })
+
+    setTimeout(function() {
+      ee.emit('send', ne)
+    }, 500)
   })
 
-  var svc = svcConfig({
-    domain: 'example.auth0.com',
-    clientID: '[client id]',
-    clientSecret: '[client secret]'
-  })
-
-  svc(ee)
-
-  var ne = newEvent('auth0/user', 'get', {userId: '123456'})
-
-  ee.on(ne.from, event => {
-    t.deepEqual(response, event.object.message, 'should respond without error from palmetto call')
-  })
-
-  ee.emit('send', ne)
-  revert()
 })

@@ -1,33 +1,35 @@
-const test = require('ava')
+const test = require('tap').test
 const rewire = require('rewire')
 const { newEvent } = require('palmettoflow-event')
 var ee = require('palmettoflow-nodejs')()
 var svcConfig = rewire('../../')
+const { curry } = require('ramda')
 
-test('Should return user data from auth0/user/update call', t => {
+test('updateUser-successPath', t => {
+  t.test('Should return user data from auth0/user/update call', tt => {
+    var response = { email: 'foo.baz@bar.net' }
 
-  var updateData = { email: 'foo.bar@baz.net' }
+    var revert = svcConfig.__set__('updateUser', curry((data, data2, data3, data4) => new Promise((resolve, reject) => resolve(response))))
 
-  var revert = svcConfig.__set__('Auth0', config => {
-    return {
-      updateUser: (input1, input2) => new Promise((resolve, reject) => {resolve(updateData)})
-    }
+    var ne = newEvent('auth0/user', 'update', {userId: 'auth0|12345'})
+
+    var svc = svcConfig({
+      domain: 'example.auth0.com',
+      token: 'TOKEN'
+    })
+
+    svc(ee)
+
+    ee.on(ne.from, event => {
+      t.deepEqual(event.object.email, 'foo.baz@bar.net', 'should respond without error from palmetto call')
+      revert()
+      tt.end()
+      t.end()
+    })
+
+    setTimeout(function() {
+      ee.emit('send', ne)
+    }, 500)
   })
 
-  var svc = svcConfig({
-    domain: 'example.auth0.com',
-    clientID: '[client id]',
-    clientSecret: '[client secret]'
-  })
-
-  svc(ee)
-
-  var ne = newEvent('auth0/user', 'update', {userId: '123456', userData: {email: 'foo@bar.com'}})
-
-  ee.on(ne.from, event => {
-    t.deepEqual(updateData, event.object, 'should respond without error from palmetto call')
-  })
-
-  ee.emit('send', ne)
-  revert()
 })
