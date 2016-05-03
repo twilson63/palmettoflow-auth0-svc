@@ -1,9 +1,9 @@
 const test = require('tap').test
 const rewire = require('rewire')
+const { curry } = require('ramda')
 const { newEvent } = require('palmettoflow-event')
 var ee = require('palmettoflow-nodejs')()
 var svcConfig = rewire('../../')
-const { curry } = require('ramda')
 
 test('updateUser-successPath', t => {
   t.test('Should return user data from auth0/user/update call', tt => {

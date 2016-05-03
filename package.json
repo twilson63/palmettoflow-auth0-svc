@@ -28,8 +28,7 @@
   "devDependencies": {
     "palmettoflow-nodejs": "^1.0.1",
     "rewire": "^2.5.1",
-    "tap": "^5.7.1",
-    "tap-spec": "^4.1.1"
+    "tap": "^5.7.1"
   },
   "directories": {
     "test": "test"
