@@ -1,33 +1,44 @@
-var response = require('palmettoflow-event').response
-var responseError = require('palmettoflow-event').responseError
+const { curry, path } = require('ramda')
+var { getUser, updateUser } = require('./users')
+const { fromEvent, fromPromise } = require('most')
+const { response, responseError }  = require('palmettoflow-event')
 
-var Auth0 = require('auth0')
+const handleResponse = curry((event, res) => res.error ? responseError(event, res) : response(event, res))
 
-module.exports = function (config) {
-  var api = new Auth0(config)
-  return function (ee) {
-    ee.on('/auth0/users/email/update', function (event) {
-      api.updateUserEmail(
-        event.object.user_id,
-        event.object.email,
-        event.object.verify,
-        function (err, result) {
-          if (err) { return ee.emit('send', responseError(event, err)) }
-          ee.emit('send', response(event, {message: result}))
-        }
-      )
-    })
+const svc = curry((config, ee) => {
+  const get = getUser(config.token, config.domain)
+  const update = updateUser(config.token, config.domain)
+  const send = ev => ee.emit('send', ev)
 
-    ee.on('/auth0/users/password/update', function (event) {
-      api.updateUserPassword(
-        event.object.user_id,
-        event.object.password,
-        event.object.verify,
-        function (err, result) {
-          if (err) { return ee.emit('send', responseError(event, err)) }
-          ee.emit('send', response(event, { message: result}))
-        }
-      )
-    })
+  fromEvent('/auth0/user/get', ee)
+    .flatMap(handleGetUser)
+    .observe(send)
+
+  fromEvent('/auth0/user/update', ee)
+    .flatMap(handleUpdateUser)
+    .observe(send)
+
+  return ee
+
+  function handleGetUser(event) {
+    const userId = path(['object','userId'], event) || null
+
+    return fromPromise(get(userId)
+      .then(handleResponse(event))
+      .catch(err => responseError(event, err))
+    )
   }
-}
+
+  function handleUpdateUser(event) {
+    const userId = path(['object','userId'], event) || null
+    const userData = path(['object','userData'], event) || null
+
+    return fromPromise(update(userId, userData)
+      .then(handleResponse(event))
+      .catch(err => responseError(event, err))
+    )
+  }
+})
+
+// export svc
+module.exports = svc

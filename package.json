@@ -1,25 +1,41 @@
 {
   "name": "palmettoflow-auth0",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "[![Build Status](https://travis-ci.org/twilson63/palmettoflow-auth0-svc.svg?branch=master)](https://travis-ci.org/twilson63/palmettoflow-auth0-svc)",
   "main": "index.js",
   "scripts": {
-    "test": "tap test"
+    "test": "tap test/**/*.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "palmetto",
+    "palmetto flow",
+    "auth0",
+    "auth zero"
+  ],
+  "authors": [
+    "Tom Wilson",
+    "Kevin Collins",
+    "Brent Cobb"
+  ],
   "license": "ISC",
   "dependencies": {
-    "auth0": "^0.8.2",
+    "most": "^0.19.0",
+    "node-fetch": "^1.5.1",
     "palmettoflow-event": "^1.1.2",
-    "rewire": "^2.3.4"
+    "ramda": "^0.21.0",
+    "request": "^2.72.0"
   },
   "devDependencies": {
     "palmettoflow-nodejs": "^1.0.1",
-    "tap": "^2.1.1"
+    "rewire": "^2.5.1",
+    "tap": "^5.7.1"
   },
   "directories": {
     "test": "test"
+  },
+  "engines": {
+    "node": "6.0.0",
+    "npm": "3.8.6"
   },
   "repository": {
     "type": "git",
