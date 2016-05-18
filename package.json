@@ -6,7 +6,7 @@
   "scripts": {
     "test": "tap test/**/*.js",
     "build": "buble -i source -o dist",
-    "prepublish": "buble source -o dist"
+    "prepublish": "buble -i source -o dist"
   },
   "keywords": [
     "palmetto",
