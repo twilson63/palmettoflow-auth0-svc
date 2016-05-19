@@ -4,7 +4,7 @@
   "description": "[![Build Status](https://travis-ci.org/twilson63/palmettoflow-auth0-svc.svg?branch=master)](https://travis-ci.org/twilson63/palmettoflow-auth0-svc)",
   "main": "dist/index.js",
   "scripts": {
-    "test": "tap test/**/*.js",
+    "test": "npm run build & tap test/**/*.js",
     "build": "buble -i src -o dist",
     "prepublish": "buble -i src -o dist"
   },
