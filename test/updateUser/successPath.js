@@ -1,7 +1,7 @@
 const test = require('tap').test
 const rewire = require('rewire')
-const { curry } = require('ramda')
-const { newEvent } = require('palmettoflow-event')
+const curry = require('ramda').curry
+const newEvent = require('palmettoflow-event').newEvent 
 var ee = require('palmettoflow-nodejs')()
 var svcConfig = rewire('../../dist')
 
