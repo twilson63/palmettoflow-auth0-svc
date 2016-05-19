@@ -5,8 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "tap test/**/*.js",
-    "build": "buble -i source -o dist",
-    "prepublish": "buble -i source -o dist"
+    "build": "buble -i src -o dist",
+    "prepublish": "buble -i src -o dist"
   },
   "keywords": [
     "palmetto",

@@ -3,7 +3,7 @@ const rewire = require('rewire')
 const { curry } = require('ramda')
 const { newEvent } = require('palmettoflow-event')
 var ee = require('palmettoflow-nodejs')()
-var svcConfig = rewire('../../source')
+var svcConfig = rewire('../../dist')
 
 test('getUser-successPath', t => {
   t.test('Should return user data from auth0/user/get call', tt => {

@@ -3,7 +3,7 @@ const rewire = require('rewire')
 const { curry } = require('ramda')
 const { newEvent } = require('palmettoflow-event')
 var ee = require('palmettoflow-nodejs')()
-var svcConfig = rewire('../../source')
+var svcConfig = rewire('../../dist')
 
 test('getUser-failurePath', t => {
   t.test('Should return error from auth0/user/update', tt => {
@@ -32,4 +32,3 @@ test('getUser-failurePath', t => {
     }, 500)
   })
 })
-
