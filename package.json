@@ -2,9 +2,11 @@
   "name": "palmettoflow-auth0",
   "version": "2.0.0",
   "description": "[![Build Status](https://travis-ci.org/twilson63/palmettoflow-auth0-svc.svg?branch=master)](https://travis-ci.org/twilson63/palmettoflow-auth0-svc)",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "tap test/**/*.js"
+    "test": "tap test/**/*.js",
+    "build": "buble -i source -o dist",
+    "prepublish": "buble -i source -o dist"
   },
   "keywords": [
     "palmetto",
@@ -26,6 +28,7 @@
     "request": "^2.72.0"
   },
   "devDependencies": {
+    "buble": "^0.8.4",
     "palmettoflow-nodejs": "^1.0.1",
     "rewire": "^2.5.1",
     "tap": "^5.7.1"
