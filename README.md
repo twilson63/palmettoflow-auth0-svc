@@ -4,7 +4,7 @@
 
 This service manages Auth0 Api through the Palmetto Flow.
 
-> Node v6 is required for this module
+> Node v4 and greater is required for this module
 
 Configuration
 
