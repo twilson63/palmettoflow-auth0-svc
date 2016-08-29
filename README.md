@@ -6,6 +6,9 @@ This service manages Auth0 Api through the Palmetto Flow.
 
 > Node v4 and greater is required for this module
 
+## Install
+`npm install palmettoflow-auth0 -S`
+
 Configuration
 
 ``` js
