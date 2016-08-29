@@ -6,7 +6,10 @@ This service manages Auth0 Api through the Palmetto Flow.
 
 > Node v4 and greater is required for this module
 
-Configuration
+## Install
+`npm install palmettoflow-auth0 -S`
+
+## Configuration
 
 ``` js
 var palmetto = require('@twilson63/palmetto-couchdb')
@@ -24,9 +27,9 @@ var svc = require('palmettoflow-auth0')({
 svc(ee)
 ```
 
-Api methods currently implemented:
+## Api methods currently implemented:
 
-* Get User
+### Get User
 
 ``` js
 var newEvent = require('palmettoflow-event').newEvent
@@ -44,7 +47,7 @@ ee.emit('send', ne)
 ```
 
 
-* Update User
+### Update User
 
 For more info on updatable user properties, visit the [Auth0 docs](https://auth0.com/docs/api/v2#!/Users/patch_users_by_id)
 
